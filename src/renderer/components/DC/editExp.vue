@@ -6,51 +6,51 @@
         <div class="experienceInfo" id ="experienceInfo">
           <p class="client" id="pClient">
             <label for="client">Client : </label>
-            <textarea type="text" name="client" id="client" v-model="client"> </textarea>
+            <textarea type="text" name="client" id="client"  v-model="exp.client"> </textarea>
           </p>
           <p class="experienceName" id="pProject">
             <label for="experienceName">Titre de l'expérience : </label>
-            <textarea type="text" name="experienceName" id="experienceName" v-model="experienceName"></textarea>
+            <textarea type="text" name="experienceName" id="experienceName"  v-model="exp.experienceName"></textarea>
           </p>
           <p class="experienceBegin" id="pExperienceBegin">
             <label for="experienceBegin">Début de la mision : </label>
-            <input type="date" name="experienceBegin" id="experienceBegin" v-model="experienceBegin">
+            <input type="date" name="experienceBegin" id="experienceBegin"  v-model="exp.experienceBegin">
           </p>
           <p class="experienceEnd" id="pExperienceEnd">
             <label for="experienceEnd">Fin de la mission : </label>
-            <input type="date" name="experienceEnd" id="experienceEnd" v-model="experienceEnd">
+            <input type="date" name="experienceEnd" id="experienceEnd"  v-model="exp.experienceEnd">
           </p>
           <p class="context" id="pContext">
             <label for="context">Contexte de la mission :</label>
-            <textarea type="text" name="context" id="context" placeholder="Le contexte de ma mission" v-model="context"></textarea>
+            <textarea type="text" name="context" id="context" placeholder="Le contexte de ma mission"  v-model="exp.context"></textarea>
           </p>
         </div >
 
         <div id = "experiencesContent" class="experiencesContent">
           <div id="addSubject" @click="addSubject" class="subjectButton"><i class="material-icons icon ">add_circle</i> <span> Ajouter un sujet </span></div>
           <div id="subjects" class="subjects">
-            <div id="subject" class="subject" v-for="(subject) in subjects" :key="subject.id">
+            <div id="subject" class="subject" v-for="(subject, index) in exp.subjects" :key="subject.id">
               <div id="deleteSubject" class="deleteEl" @click="deleteSubject(subject)">X</div>
               <div class="subjectName">
                 <label for="subjectText">Sujet : </label>
-                <textarea type="text" name="sujet" id="subjectText"> </textarea>
+                <textarea type="text" name="sujet" id="subjectText" v-model="exp.subjects[index].subject"> </textarea>
               </div>
               <div class="subjectContent">
                 <div @click="addTask(subject)" id="addTast" class="addTast"><i class="material-icons icon icon2x">add_circle</i>Ajouter une tache</div>
                 <div id="tasks" class="tasks">
-                  <div id="task" class="task" v-for="task in subject.tasks" :key="task.id">
+                  <div id="task" class="task" v-for="(task, index) in subject.tasks" :key="task.id">
                     <div id="deleteTask" class="deleteEl" @click="deleteTask(subject,task)">X</div>
                     <div class="taskName">
                       <label for="task">Tache : </label>
-                      <textarea type="text" name="sujet" id="taskText"> </textarea>
+                      <textarea type="text" name="sujet" id="taskText"  v-model="subject.tasks[index].task"> </textarea>
                     </div>
                     <div @click="addSubTask(task)" id="addSubTask" class="addSubTask"><i class="material-icons icon icon2x">add_circle</i>Ajouter une sous-tache</div>
                     <div id="subTasks" class="subTasks">
-                      <div class="subTask"  v-for="subTask in task.subTasks" :key="subTask.id" >
+                      <div class="subTask"  v-for="(subTask,index) in task.subTasks" :key="subTask.id" >
                         <div id="deleteSubTask" class="deleteEl" @click="deleteSubTask(task, subTask)">X</div>
                         <div class="subTaskName">
                           <label for="subTask">Sous-tache : </label>
-                          <textarea type="text" name="subTask" id="subTaskText"> </textarea>
+                          <textarea type="text" name="subTask" id="subTaskText" v-model="task.subTasks[index].subTask"> </textarea>
                         </div>
                       </div>
                     </div>
@@ -61,11 +61,17 @@
           </div>            
         </div>        
       </div>
-      <div id="submit" class="submit">
-           <i class="material-icons icon icon2x">save_alt</i>
+      <div id = "sideButons" class="sideButtons">
+      <div id="submit" class="submit" @click="submit(exp)">
+           <i class="material-icons icon icon2x">save</i>
         </div>
-    </div> 
-</div>
+      <div id="vizualise" class="vizualise" @click="submit">
+           <i class="material-icons icon icon2x">visibility</i>
+        </div>
+      </div>  
+    </div>   
+    </div>
+
 </template>
 
 
@@ -73,34 +79,36 @@
 export default {
   name: "editExp",
   data: () => ({
-    client: null,
-    experienceName: null,
-    experienceBegin: null,
+    exp: {
+      client: null,
+      experienceName: null,
+      experienceBegin: null,
 
-    experienceEnd: null,
-    context: null,
-    subjects: [
-      {
-        subject: "",
-        tasks: [
-          {
-            task: "",
-            subTasks: [
-              {
-                subTask: ""
-              }
-            ]
-          }
-        ]
-      }
-    ]
+      experienceEnd: null,
+      context: null,
+      subjects: [
+        {
+          subject: null,
+          tasks: [
+            {
+              task: null,
+              subTasks: [
+                {
+                  subTask: null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
   }),
   methods: {
     checkForm: function(e) {
       e.preventDefault();
     },
     addSubject: function() {
-      this.subjects.push({
+      this.exp.subjects.push({
         subject: null,
         tasks: [
           {
@@ -115,7 +123,7 @@ export default {
       });
     },
     deleteSubject: function(subject) {
-      this.subjects.splice(this.subjects.indexOf(subject), 1);
+      this.exp.subjects.splice(this.exp.subjects.indexOf(subject), 1);
     },
     addTask: function(subject) {
       subject.tasks.push({
@@ -138,7 +146,8 @@ export default {
     deleteSubTask: function(task, subTask) {
       task.subTasks.splice(task.subTasks.indexOf(subTask), 1);
     },
-    submit: function(e) {
+    submit: function(myExp) {
+      this.$store.dispatch("saveEXPact", myExp);
       console.log("Le formulaire a été validé");
     }
   }
@@ -207,13 +216,16 @@ export default {
   vertical-align: middle;
   font-size: 40px;
   transition: font-size 300ms linear;
+  cursor: pointer;
 }
 
-.submit {
+.sideButtons {
   position: fixed;
   right: 4em;
   top: 50vh;
+  height: 100px;
 }
+
 .experienceInfo .client textarea {
   position: relative;
   text-align: start;
