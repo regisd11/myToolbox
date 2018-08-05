@@ -100,9 +100,11 @@ export default {
   display: block;
   width: 350px;
   margin: 0;
+  border-bottom: 1px solid #e4dede;
 }
 .accordeonEl {
   margin: 0;
+  margin-left: 15px;
   padding: 0;
   display: block;
   max-height: 0px;

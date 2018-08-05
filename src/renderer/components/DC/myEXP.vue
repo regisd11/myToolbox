@@ -1,7 +1,7 @@
 <template>
 <div id="wrapper">
     <div id = "main">
-        <h1>Mes expériences</h1>
+      <div :class="$style.title"> <h1> Mes expériences </h1></div>
     </div> 
     <div id = "editEXP" :class="$style.editEXP">
         <router-link :to="{name: 'editEXP'}" :class="$style.linkButton" > <i class="material-icons" :class="[$style.icon,$style.icon2x]" @click="handleToggle">add_circle</i></router-link>
@@ -75,6 +75,25 @@ export default {
 }
 .icon:hover {
   font-size: 60px;
+}
+
+.title {
+  margin-left: 200px;
+  text-transform: uppercase;
+  grid-row-start: 2;
+  grid-column-start: 2;
+  grid-column-end: -1;
+  color: #2c2c2c;
+  justify-self: center;
+}
+
+.title h1 {
+  font-family: "EB Garamond", serif;
+  text-transform: uppercase;
+  font-size: 2.5em;
+  font-weight: bold;
+  line-height: 2.5em;
+  text-shadow: 0.07em 0.07em 0 rgba(0, 0, 0, 0.1);
 }
 </style>
 
