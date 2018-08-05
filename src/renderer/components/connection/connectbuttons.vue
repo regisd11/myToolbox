@@ -13,7 +13,7 @@
     </li>
     <li id="logoutButton" :class="[$style.button,$style.logoutButton, $style.subButton]" v-on:click="disconnect">
       <!--<i class="material-icons" :class="[$style.icon , $style.icon2x,$style.hoverButton]">block</i>-->
-      <img :class="[$style.icon , $style.icon2x, $style.iconSvg]" v-bind:src="logoutImgUrl">
+      <img :class="[$style.icon , $style.icon2x, $style.iconSvg, $style.logoutButton]" v-bind:src="logoutImgUrl">
     </li>
     </ul>  
   </div>

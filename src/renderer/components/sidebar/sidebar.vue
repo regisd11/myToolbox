@@ -100,7 +100,6 @@ export default {
   display: block;
   width: 350px;
   margin: 0;
-  border-bottom: 1px solid #e4dede;
 }
 .accordeonEl {
   margin: 0;
@@ -118,20 +117,18 @@ export default {
   position: relative;
   display: block;
   width: 300px;
-  border-bottom: 2px #fff;
 }
 
 .link {
   position: relative;
   display: block;
-
   color: #fff;
   font-family: arial;
   font-size: 20px;
   text-decoration: none;
   transition: all 0.3s linear;
   width: 100%;
-  border-bottom: 2px #fff;
+  border-bottom: 1px solid #e4dede;
 }
 
 .navtext {
@@ -156,7 +153,7 @@ export default {
   margin: 0;
   overflow: hidden;
   cursor: pointer;
-  border-bottom: 2px #fff;
+  border-bottom: 1px solid #e4dede;
 }
 
 .ulAccordeonWrapper,
