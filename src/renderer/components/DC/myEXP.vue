@@ -3,11 +3,14 @@
     <div id = "main" class="main">
       <div :class="$style.title"> <h1> Mes expériences </h1></div>
     </div> 
-    <div id = "editEXP" :class="$style.editEXP">
-        <router-link :to="{name: 'editEXP'}" :class="$style.linkButton" > <i class="material-icons" :class="[$style.icon,$style.icon2x]" @click="handleToggle">add_circle</i></router-link>
+    <div id = "newEXP" :class="$style.newEXP">
+        <router-link :to="{name: 'newEXP'}" :class="$style.linkButton" > <i class="material-icons" :class="[$style.icon,$style.icon2x]" @click="handleToggle">add_circle</i></router-link>
     </div>
     <div id = "revert" :class="[$style.editEXP, $style.revert]">
         <router-link :to="{name: 'browseEXP'}" :class="$style.linkButton"> <i class="material-icons" :class="[$style.icon,$style.icon2x]" @click="handleToggle">reply</i></router-link>
+    </div>
+    <div id = "editEXP" :class="[$style.editEXP, $style.revert]">
+        <router-link :to="{name: 'editEXP'}" :class="$style.linkButton"> <i class="material-icons" :class="[$style.icon,$style.icon2x]" @click="handleToggle">edit</i></router-link>
     </div>
     <router-view></router-view>
 </div>
@@ -25,23 +28,29 @@ export default {
   computed: {
     editExpPage() {
       return this.$store.state.EXP.editExpPage;
+    },
+    newExpPage() {
+      return this.$store.state.EXP.newExpPage;
     }
   },
   methods: {
     handleToggle: function() {
-      this.$store.dispatch("toggleEditExpPage");
+      this.$store.dispatch("toggleNewExpPage");
     },
     populate: function() {
       this.$store.dispatch("populateExpStoreAct");
     }
   },
   watch: {
-    editExpPage: function(editExpPage) {
-      if (editExpPage == true) {
-        document.getElementById("editEXP").style.display = "none";
+    newExpPage: function(newExpPage, editExpPage) {
+      if (newExpPage == true) {
+        document.getElementById("newEXP").style.display = "none";
         document.getElementById("revert").style.display = "block";
+      } else if (editExpPage == true) {
+        document.getElementById("newEXP").style.display = "block";
+        document.getElementById("revert").style.display = "none";
       } else {
-        document.getElementById("editEXP").style.display = "block";
+        document.getElementById("newEXP").style.display = "block";
         document.getElementById("revert").style.display = "none";
       }
     }
@@ -50,7 +59,7 @@ export default {
 </script>
 
 <style module>
-.editEXP {
+.newEXP {
   z-index: 500;
   position: fixed;
   bottom: 3em;
