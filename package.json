@@ -52,6 +52,7 @@
     },
     "dependencies": {
         "axios": "^0.16.1",
+        "es6-promise": "^4.2.4",
         "gsap": "^2.0.1",
         "material-icons": "^0.2.3",
         "materialize-css": "^1.0.0-rc.2",

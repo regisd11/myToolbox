@@ -4,13 +4,17 @@
       <div class="title" id="subTitle"> <h1>  Editer une nouvelle experience  </h1></div>
       <div class="content" id = "content">
         <div class="experienceInfo" id ="experienceInfo">
+          <p class="experienceName" id="pProject">
+            <label for="experienceName">Titre de l'expérience : </label>
+            <textarea type="text" name="experienceName" id="experienceName"  v-model="exp.experienceName"></textarea>
+          </p>
           <p class="client" id="pClient">
             <label for="client">Client : </label>
             <textarea type="text" name="client" id="client"  v-model="exp.client"> </textarea>
           </p>
-          <p class="experienceName" id="pProject">
-            <label for="experienceName">Titre de l'expérience : </label>
-            <textarea type="text" name="experienceName" id="experienceName"  v-model="exp.experienceName"></textarea>
+          <p class="experienceTitle" id="pProject">
+            <label for="experienceTitle">Titre de l'expérience : </label>
+            <textarea type="text" name="experienceTitle" id="experienceTitle"  v-model="exp.experienceTitle"></textarea>
           </p>
           <p class="experienceBegin" id="pExperienceBegin">
             <label for="experienceBegin">Début de la mision : </label>
@@ -80,12 +84,13 @@ export default {
   name: "editExp",
   data: () => ({
     exp: {
-      client: null,
-      experienceName: null,
+      _id: null,
+      experienceName: "le nom de mon experience",
+      client: "le nom de mon client",
+      experienceTitle: "le titre de mon experience",
       experienceBegin: null,
-
       experienceEnd: null,
-      context: null,
+      context: "le contexte de ma mission",
       subjects: [
         {
           subject: null,
@@ -147,8 +152,16 @@ export default {
       task.subTasks.splice(task.subTasks.indexOf(subTask), 1);
     },
     submit: function(myExp) {
-      this.$store.dispatch("saveEXPact", myExp);
-      console.log("Le formulaire a été validé");
+      console.log(myExp);
+      this.$store.dispatch("storeExp", myExp).then(
+        () => {
+          console.log("Le formulaire a été validé");
+        },
+        err => {
+          console.log("Le formulaire n'a pas été validé");
+          console.error(err);
+        }
+      );
     }
   }
 };

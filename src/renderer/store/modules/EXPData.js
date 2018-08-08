@@ -1,22 +1,6 @@
-/*
-{
-    _id: null,
-    client: null,
-    experienceName: null,
-    experienceBegin: null,
-    experienceEnd: null,
-    context: null,
-    subjects: [{
-        subject: null,
-        tasks: [{
-            task: null,
-            subTasks: [{
-                subTask: null
-            }]
-        }]
-    }]
-}
-*/
+const promise = require('es6-promise').Promise
+
+import db from '../../datastore'
 
 // initial state
 const state = {
@@ -36,33 +20,40 @@ const actions = {
     storeExp({
         commit
     }, exp) {
+        console.log('debut du processus')
+        console.log(exp)
         return new promise((resolve, reject) => {
+            console.log('la promise')
             let callback = (err, newExp, updatedExp) => {
                 if (err) {
                     console.error(err)
                     reject(err)
                 }
                 const expToBeSaved = updatedExp ? updatedExp : newExp
+                console.log('expToBeSaved')
+                console.log(expToBeSaved)
+                console.log('commit saveExp')
                 commit('saveExp', expToBeSaved)
-
                 resolve()
             }
-
+            console.log('exp ajouté au store')
             if (exp._id) {
-                $db.exps.update({
-                    _id: exp._id
+                console.log("update de exp à la base")
+                db.exps.update({
+                    _id: exp._id,
                 }, exp, {
                     returnUpdatedDocs: true
                 }, callback)
             } else {
-                $db.exps.insert(exp, callback)
+                console.log("ajout de exp à la base")
+                db.exps.insert(exp, callback)
             }
         })
     },
     removeExp({
         commit
     }, _id) {
-        return new promise((resolve, reject) => {
+        new promise((resolve, reject) => {
             $db.exps.remove({
                 _id: _id
             }, {}, (err, numRemoved) => {
@@ -77,6 +68,12 @@ const actions = {
     },
     saveEXPact: (context, payload) => {
         context.commit('saveExp', payload)
+    },
+    populateExpStoreAct: (context, payload) => {
+        context.commit("populateExpStore", payload)
+    },
+    storeExpAct: (context, exp, database) => {
+        context.commit("storeExp", exp, database)
     }
 
 }
@@ -84,8 +81,14 @@ const actions = {
 // mutations
 const mutations = {
     populateExpStore: (state, payload) => {
-        db.exps.find({}, (err, result) => {
-            state.expList = result
+        payload.find({}, (err, result) => {
+
+            if (err) {
+                console.log('oula error : ' && err)
+            } else {
+                console.log(result)
+                state.expList.push(result)
+            }
         })
     },
     saveExp: (state, payload) => {
@@ -96,7 +99,35 @@ const mutations = {
             payload
         }) => _id === payload)
         state.expList.splice(index, 1)
+    },
+    storeExp: (
+        state,
+        exp,
+        db
+    ) => {
+        return new promise((resolve, reject) => {
+            let callback = (err, newExp, updatedExp) => {
+                if (err) {
+                    console.error(err)
+                    reject(err)
+                }
+                const expToBeSaved = updatedExp ? updatedExp : newExp
+                commit('saveExp', expToBeSaved)
+                resolve()
+            }
+
+            if (exp._id) {
+                db.update({
+                    _id: exp._id
+                }, exp, {
+                    returnUpdatedDocs: true
+                }, callback)
+            } else {
+                db.insert(exp, callback)
+            }
+        })
     }
+
 }
 
 export default {
