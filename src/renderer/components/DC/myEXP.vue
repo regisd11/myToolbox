@@ -1,9 +1,8 @@
 <template>
 <div id="wrapper">
-    <div id = "main">
+    <div id = "main" class="main">
       <div :class="$style.title"> <h1> Mes expériences </h1></div>
     </div> 
-    <div><button @click="populate">populate</button></div>
     <div id = "editEXP" :class="$style.editEXP">
         <router-link :to="{name: 'editEXP'}" :class="$style.linkButton" > <i class="material-icons" :class="[$style.icon,$style.icon2x]" @click="handleToggle">add_circle</i></router-link>
     </div>
@@ -20,6 +19,9 @@ export default {
   /*mounted() {
     this.$store.dispatch("populateExpStoreAct", this.$db.exps);
   },*/
+  mounted() {
+    this.$store.dispatch("populateExpStoreAct");
+  },
   computed: {
     editExpPage() {
       return this.$store.state.EXP.editExpPage;
@@ -30,7 +32,7 @@ export default {
       this.$store.dispatch("toggleEditExpPage");
     },
     populate: function() {
-      this.$store.dispatch("populateExpStoreAct", this.$db.exps);
+      this.$store.dispatch("populateExpStoreAct");
     }
   },
   watch: {

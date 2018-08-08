@@ -84,7 +84,6 @@ export default {
   name: "editExp",
   data: () => ({
     exp: {
-      _id: null,
       experienceName: "le nom de mon experience",
       client: "le nom de mon client",
       experienceTitle: "le titre de mon experience",
@@ -93,13 +92,13 @@ export default {
       context: "le contexte de ma mission",
       subjects: [
         {
-          subject: null,
+          subject: "sujet",
           tasks: [
             {
-              task: null,
+              task: "tache",
               subTasks: [
                 {
-                  subTask: null
+                  subTask: "sous-tache"
                 }
               ]
             }

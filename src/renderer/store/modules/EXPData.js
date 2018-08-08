@@ -12,6 +12,11 @@ const state = {
 const getters = {
     expList: state => {
         return state.expList
+    },
+    exp: (state, getters) => id => {
+        state.expList.find(({
+            _id
+        }) => _id == id)
     }
 }
 
@@ -54,7 +59,7 @@ const actions = {
         commit
     }, _id) {
         new promise((resolve, reject) => {
-            $db.exps.remove({
+            db.exps.remove({
                 _id: _id
             }, {}, (err, numRemoved) => {
                 if (err) {
@@ -69,25 +74,23 @@ const actions = {
     saveEXPact: (context, payload) => {
         context.commit('saveExp', payload)
     },
-    populateExpStoreAct: (context, payload) => {
-        context.commit("populateExpStore", payload)
+    populateExpStoreAct: (context) => {
+        context.commit("populateExpStore")
     },
-    storeExpAct: (context, exp, database) => {
-        context.commit("storeExp", exp, database)
+    storeExpAct: (context, exp) => {
+        context.commit("storeExp", exp)
     }
 
 }
 
 // mutations
 const mutations = {
-    populateExpStore: (state, payload) => {
-        payload.find({}, (err, result) => {
-
+    populateExpStore: (state) => {
+        db.exps.find({}, (err, result) => {
             if (err) {
                 console.log('oula error : ' && err)
             } else {
-                console.log(result)
-                state.expList.push(result)
+                state.expList = result
             }
         })
     },
@@ -99,35 +102,7 @@ const mutations = {
             payload
         }) => _id === payload)
         state.expList.splice(index, 1)
-    },
-    storeExp: (
-        state,
-        exp,
-        db
-    ) => {
-        return new promise((resolve, reject) => {
-            let callback = (err, newExp, updatedExp) => {
-                if (err) {
-                    console.error(err)
-                    reject(err)
-                }
-                const expToBeSaved = updatedExp ? updatedExp : newExp
-                commit('saveExp', expToBeSaved)
-                resolve()
-            }
-
-            if (exp._id) {
-                db.update({
-                    _id: exp._id
-                }, exp, {
-                    returnUpdatedDocs: true
-                }, callback)
-            } else {
-                db.insert(exp, callback)
-            }
-        })
     }
-
 }
 
 export default {
