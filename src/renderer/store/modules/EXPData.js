@@ -14,7 +14,8 @@ const getters = {
         return state.expList
     },
     exp: (state, getters) => id => {
-        state.expList.find(({
+
+        return state.expList.find(({
             _id
         }) => _id == id)
     }
@@ -103,6 +104,8 @@ const mutations = {
         }) => _id === payload)
         state.expList.splice(index, 1)
     }
+
+
 }
 
 export default {

@@ -70,6 +70,12 @@ export default new Router({
                     path: 'browseEXP',
                     name: 'browseEXP',
                     component: require('@/components/DC/browseEXP').default,
+                    children: [{
+                        path: 'renderExp/:id',
+                        name: 'renderExp',
+                        component: require('@/components/DC/renderExpAdway').default,
+                        props: true
+                    }]
                 },
                 {
                     path: 'editEXP',

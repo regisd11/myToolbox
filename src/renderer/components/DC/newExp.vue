@@ -1,7 +1,7 @@
 <template>
 <div id="editExpWrapper">
     <div id = "main" class="main">
-      <div class="title" id="subTitle"> <h1>  Modifier mon experience  </h1></div>
+      <div class="title" id="subTitle"> <h1>  Editer une nouvelle experience  </h1></div>
       <div class="content" id = "content">
         <div class="experienceInfo" id ="experienceInfo">
           <p class="experienceName" id="pProject">

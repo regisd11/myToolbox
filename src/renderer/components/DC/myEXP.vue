@@ -6,10 +6,10 @@
     <div id = "newEXP" :class="$style.newEXP">
         <router-link :to="{name: 'newEXP'}" :class="$style.linkButton" > <i class="material-icons" :class="[$style.icon,$style.icon2x]" @click="handleToggle">add_circle</i></router-link>
     </div>
-    <div id = "revert" :class="[$style.editEXP, $style.revert]">
+    <div id = "revert" :class="[$style.newEXP, $style.revert]">
         <router-link :to="{name: 'browseEXP'}" :class="$style.linkButton"> <i class="material-icons" :class="[$style.icon,$style.icon2x]" @click="handleToggle">reply</i></router-link>
     </div>
-    <div id = "editEXP" :class="[$style.editEXP, $style.revert]">
+    <div id = "editEXP" :class="[$style.newEXP,$style.editEXP]">
         <router-link :to="{name: 'editEXP'}" :class="$style.linkButton"> <i class="material-icons" :class="[$style.icon,$style.icon2x]" @click="handleToggle">edit</i></router-link>
     </div>
     <router-view></router-view>
@@ -69,6 +69,9 @@ export default {
   display: block;
 }
 .revert {
+  display: none;
+}
+.editEXP {
   display: none;
 }
 .linkButton {

@@ -3,13 +3,23 @@
     <div id = "main" class="main">
         <div class="title" id="subTitle"> <h1> </h1></div>
         <div id="content" class="content" >
-                <div v-for="exp in expList" :key="exp.id" class="experienceBlock"> <i class="material-icons icon icon2x" >style</i> <div> {{exp.experienceTitle}} </div> </div>
+                <div v-for="exp in expList" :key="exp.id" class="experienceBlock" @click="focusChanged(exp._id)"> 
+                  <router-link class="links" :to="{name: 'renderExp', params:{id:exp._id}}">
+                  <i class="material-icons icon icon2x" >style</i> 
+                  <div> 
+                    <ul>
+                      <li>Client: {{exp.client}}</li>
+                      <li>Nom: {{exp.experienceName}}</li>
+                      <li>date de la dernière modification : {{exp.updatedAt}}</li>
+                    </ul>  
+                    </div>
+                  </router-link> 
+                </div>
         </div>
-        <div>
-            <div>Aperçu de l'experience selectionnée</div>
-            <div id="renderExp" class="renderExp"></div>
+        <div id="render" class="render">
+            <div id = "renderTitle" class="renderTitle">Aperçu de l'experience selectionnée</div>
+            <router-view></router-view>
         </div>
-
     </div> 
 </div>
 </template>
@@ -18,22 +28,21 @@
 <script>
 export default {
   name: "browseExp",
+  data: () => ({
+    selectedId: ""
+  }),
+  mounted() {
+    this.$store.dispatch("populateExpStoreAct");
+  },
   computed: {
     expList() {
       return this.$store.state.EXPData.expList;
     }
   },
-  created() {
-    document.addEventListener("focusin", this.focusChanged);
-  },
-  beforeDestroy() {
-    document.removeEventListener("focusin", this.focusChanged);
-  },
   methods: {
-    focusChanged(event) {
-      const el = event.target;
-      console.log(event.target);
-      // do something with the element.
+    focusChanged(ID) {
+      this.selectedId = ID;
+      this.render = true;
     }
   }
 };
@@ -49,14 +58,11 @@ export default {
   padding: 0;
   text-decoration: none;
   position: relative;
-  grid-gap: 30px;
 }
 .content {
   position: relative;
   margin-top: 150px;
   width: 90%;
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  box-shadow: 16px 16px 32px 16px rgba(0, 0, 0, 0.4);
   margin-bottom: 50px;
   display: flex;
   flex-flow: row nowrap;
@@ -64,11 +70,20 @@ export default {
   align-content: flex-start;
 }
 .experienceBlock {
+  display: flex;
   align-content: center;
-  width: 100px;
+  width: auto;
+  padding: 5px;
+  margin-left: 15px;
+  box-shadow: 8px 8px 16px 0 rgba(0, 0, 0, 0.4);
   cursor: pointer;
   border: 1px solid rgba(0, 0, 0, 0.4);
 }
+.links {
+  text-decoration: none;
+  color: #000;
+}
+
 .experienceBlock:focus {
   border: 1px solid rgba(63, 65, 202, 1);
 }
@@ -84,5 +99,13 @@ export default {
   text-align: center;
   vertical-align: middle;
   font-size: 50px;
+}
+
+.render {
+  position: relative;
+  width: 90%;
+}
+.renderTitle {
+  margin-bottom: 30px;
 }
 </style>
