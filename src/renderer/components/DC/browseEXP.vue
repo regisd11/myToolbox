@@ -3,7 +3,7 @@
     <div id = "main" class="main">
         <div class="title" id="subTitle"> <h1> </h1></div>
         <div id="content" class="content" >
-                <div v-for="exp in expList" :key="exp.id" class="experienceBlock" @click="focusChanged(exp._id)"> 
+                <div v-for="exp in expList" :key="exp.id" class="experienceBlock"> 
                   <router-link class="links" :to="{name: 'renderExp', params:{id:exp._id}}">
                   <i class="material-icons icon icon2x" >style</i> 
                   <div> 
@@ -18,7 +18,11 @@
         </div>
         <div id="render" class="render">
             <div id = "renderTitle" class="renderTitle">Aperçu de l'experience selectionnée</div>
-            <router-view></router-view>
+            <div class="renderBox">
+              <transition name="fadeLeftSlide">
+                <router-view :key="$route.fullPath"></router-view>
+              </transition>
+            </div>
         </div>
     </div> 
 </div>
@@ -37,12 +41,6 @@ export default {
   computed: {
     expList() {
       return this.$store.state.EXPData.expList;
-    }
-  },
-  methods: {
-    focusChanged(ID) {
-      this.selectedId = ID;
-      this.render = true;
     }
   }
 };
@@ -105,7 +103,22 @@ export default {
   position: relative;
   width: 90%;
 }
+
+.renderBox {
+  background-color: grey;
+}
 .renderTitle {
   margin-bottom: 30px;
+}
+.fadeLeftSlide-enter-active {
+  transition: all 0.3s ease;
+}
+.fadeLeftSlide-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.fadeLeftSlide-enter, .fadeLeftSlide-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
 }
 </style>

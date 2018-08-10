@@ -38,6 +38,12 @@ export default {
       this.exp = this.$store.getters.exp(id);
     }
   },
+  beforeDestroy() {
+    // Perform the teardown procedure for someLeakyProperty.
+    // (In this case, effectively nothing)
+    this.exp = null;
+    delete this.exp;
+  },
   data: () => ({
     exp: {}
   }),
@@ -47,22 +53,16 @@ export default {
       var date1 = new Date(this.exp.experienceBegin);
       var date2 = new Date(this.exp.experienceEnd);
       var tmp = date2 - date1;
-
       tmp = Math.floor(tmp / 1000); // Nombre de secondes entre les 2 dates
       diff.sec = tmp % 60; // Extraction du nombre de secondes
-
       tmp = Math.floor((tmp - diff.sec) / 60); // Nombre de minutes (partie entière)
       diff.min = tmp % 60; // Extraction du nombre de minutes
-
       tmp = Math.floor((tmp - diff.min) / 60); // Nombre d'heures (entières)
       diff.hour = tmp % 24; // Extraction du nombre d'heures
-
       tmp = Math.floor((tmp - diff.hour) / 24); // Nombre de jours restants
       diff.day = tmp % 24; // Extraction du nombre de jours
-
       tmp = Math.floor((tmp - diff.day) / 30); // Nombre de mois restants
       diff.month = tmp % 30; // Extraction du nombre de mois
-
       tmp = tmp / 12; // Nombre de jours restants
       diff.year = tmp % 12; // Extraction du nombre d'années
 
@@ -111,7 +111,6 @@ export default {
 
 <style scoped>
 .wrapper {
-  background-color: grey;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;

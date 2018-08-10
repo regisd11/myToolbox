@@ -26,32 +26,23 @@ const actions = {
     storeExp({
         commit
     }, exp) {
-        console.log('debut du processus')
-        console.log(exp)
         return new promise((resolve, reject) => {
-            console.log('la promise')
             let callback = (err, newExp, updatedExp) => {
                 if (err) {
                     console.error(err)
                     reject(err)
                 }
                 const expToBeSaved = updatedExp ? updatedExp : newExp
-                console.log('expToBeSaved')
-                console.log(expToBeSaved)
-                console.log('commit saveExp')
                 commit('saveExp', expToBeSaved)
                 resolve()
             }
-            console.log('exp ajouté au store')
             if (exp._id) {
-                console.log("update de exp à la base")
                 db.exps.update({
                     _id: exp._id,
                 }, exp, {
                     returnUpdatedDocs: true
                 }, callback)
             } else {
-                console.log("ajout de exp à la base")
                 db.exps.insert(exp, callback)
             }
         })

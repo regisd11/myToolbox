@@ -12,7 +12,9 @@
     <div id = "editEXP" :class="[$style.newEXP,$style.editEXP]">
         <router-link :to="{name: 'editEXP'}" :class="$style.linkButton"> <i class="material-icons" :class="[$style.icon,$style.icon2x]" @click="handleToggle">edit</i></router-link>
     </div>
-    <router-view></router-view>
+    <transition name="unknown">
+      <router-view></router-view>
+    </transition>
 </div>
 </template>
 
