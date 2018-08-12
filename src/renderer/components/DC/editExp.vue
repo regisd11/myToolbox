@@ -29,7 +29,6 @@
             <textarea type="text" name="context" id="context" placeholder="Le contexte de ma mission"  v-model="exp.context"></textarea>
           </p>
         </div >
-
         <div id = "experiencesContent" class="experiencesContent">
           <div id="addSubject" @click="addSubject" class="subjectButton"><i class="material-icons icon ">add_circle</i> <span> Ajouter un sujet </span></div>
           <div id="subjects" class="subjects">
@@ -83,30 +82,15 @@
 export default {
   name: "editExp",
   data: () => ({
-    exp: {
-      experienceName: "le nom de mon experience",
-      client: "le nom de mon client",
-      experienceTitle: "le titre de mon experience",
-      experienceBegin: null,
-      experienceEnd: null,
-      context: "le contexte de ma mission",
-      subjects: [
-        {
-          subject: "sujet",
-          tasks: [
-            {
-              task: "tache",
-              subTasks: [
-                {
-                  subTask: "sous-tache"
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
+    exp: {}
   }),
+  created() {
+    let id = this.$route.params.id;
+
+    if (id) {
+      this.exp = this.$store.getters.exp(id);
+    }
+  },
   methods: {
     checkForm: function(e) {
       e.preventDefault();

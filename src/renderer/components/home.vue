@@ -1,8 +1,8 @@
 <template>
-  <div :class="$style.wrapper">
-    <div :class="[$style.grid, $style.main]">
-        <div :class="$style.logo" ><img :class="$style.logo" v-bind:src="AdwayImageUrl"></div>
-        <div :class="$style.welcome">Bienvenue</div>
+  <div class="wrapper">
+    <div class="grid main">
+        <div class="logo" ><img class="logo" v-bind:src="AdwayImageUrl"></div>
+        <div class="welcome">Bienvenue</div>
     </div>
   </div>
 </template>
@@ -24,11 +24,14 @@ export default {
 
 
 
-<style module>
+<style scoped>
 .wrapper {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  position: fixed;
+  height: inherit;
+  width: 100%;
 }
 
 .main {

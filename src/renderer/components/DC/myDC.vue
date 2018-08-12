@@ -1,13 +1,13 @@
 <template>
-<div id="wrapper">
+<div id="wrapper" class="wrapper">
     <div id = "main">
-        <div :class="$style.title"> <h1> <em> Mes dossiers de compétences </em> </h1></div>
+        <div class="title"> <h1> Mes dossiers de compétences </h1></div>
     </div> 
-    <div id = "editDC" :class="$style.editDC">
-        <router-link :to="{name: 'editDC'}" :class="$style.linkButton" > <i class="material-icons" :class="[$style.icon,$style.icon2x]" @click="handleToggle">add_circle</i></router-link>
+    <div id = "editDC" class="editDC">
+        <router-link :to="{name: 'editDC'}" class="linkButton" > <i class="material-icons icon icon2x"  @click="handleToggle">add_circle</i></router-link>
     </div>
-    <div id = "revert" :class="[$style.editDC, $style.revert]">
-        <router-link :to="{name: 'browseDC'}" :class="$style.linkButton"> <i class="material-icons" :class="[$style.icon,$style.icon2x]" @click="handleToggle">reply</i></router-link>
+    <div id = "revert" class="editDC revert">
+        <router-link :to="{name: 'browseDC'}" class="linkButton"> <i class="material-icons icon icon2x"  @click="handleToggle">reply</i></router-link>
     </div>
     <router-view></router-view>
 </div>
@@ -40,7 +40,15 @@ export default {
 };
 </script>
 
-<style module>
+<style scoped>
+.wrapper {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  height: inherit;
+  width: 100%;
+}
 .editDC {
   z-index: 500;
   position: fixed;
@@ -74,6 +82,25 @@ export default {
 }
 .icon:hover {
   font-size: 60px;
+}
+
+.title {
+  margin-left: 200px;
+  text-transform: uppercase;
+  grid-row-start: 2;
+  grid-column-start: 2;
+  grid-column-end: -1;
+  color: #2c2c2c;
+  justify-self: center;
+}
+
+.title h1 {
+  font-family: "EB Garamond", serif;
+  text-transform: uppercase;
+  font-size: 2.5em;
+  font-weight: bold;
+  line-height: 2.5em;
+  text-shadow: 0.07em 0.07em 0 rgba(0, 0, 0, 0.1);
 }
 </style>
 

@@ -1,13 +1,11 @@
 <template>
   <div id="app">
-    <div :class="$style.appLogoContainer"><img :class="$style.appLogo" v-bind:src="appLogoUrl"></div>
-    <transition name="component-fade" mode="out-in">
+    <div class="appLogoContainer"><img class="appLogo" v-bind:src="appLogoUrl"></div>
+
       <connectbuttons />
-    </transition>
-    <transition name="component-fade" mode="out-in">
       <sidebar />
-    </transition>
-    <transition name="component-fade" mode="out-in">
+
+    <transition name="router-anim" >
       <router-view></router-view>
     </transition>
   </div>
@@ -35,7 +33,7 @@ export default {
 };
 </script>
 
-<style module>
+<style scoped>
 /*
 * — logo —
 */
@@ -53,12 +51,34 @@ export default {
 /*
 * — transitions —
 */
-.component-fade-enter-active,
-.component-fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-.component-fade-enter, .component-fade-leave-to
-/* .component-fade-leave-active avant la 2.1.8 */ {
+.router-anim-enter-active {
+  animation: coming 1s;
+  animation-delay: 0.5s;
   opacity: 0;
+}
+
+.router-anim-leave-active {
+  animation: going 0.5s;
+}
+
+@keyframes going {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+}
+
+@keyframes coming {
+  from {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0px);
+    opacity: 1;
+  }
 }
 </style>

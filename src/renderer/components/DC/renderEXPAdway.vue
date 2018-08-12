@@ -38,12 +38,6 @@ export default {
       this.exp = this.$store.getters.exp(id);
     }
   },
-  beforeDestroy() {
-    // Perform the teardown procedure for someLeakyProperty.
-    // (In this case, effectively nothing)
-    this.exp = null;
-    delete this.exp;
-  },
   data: () => ({
     exp: {}
   }),

@@ -1,19 +1,19 @@
 <template>
-    <nav :class=" $style.sidebar">
-      <div :class="$style.sidebar_inside">
-          <router-link :class="$style.link" :to="{name: 'home'}"> <ul :class="$style.ulwrapper"><li :class="$style.links">  <i class="material-icons" :class="[$style.icon , $style.icon2x]">home</i><span :class="$style.navtext"> Page d'acceuil</span> </li> </ul> </router-link>
-          <router-link :class="$style.link" :to="{name: 'browseProfile'}"> <ul :class="$style.ulwrapper"><li :class="$style.links"> <i class="material-icons" :class="[$style.icon , $style.icon2x]" >perm_identity</i> <span :class="$style.navtext">Mon profil</span> </li> </ul> </router-link>
-            <ul :class="$style.ulAccordeonWrapper" @click="expandAccordeonDossier" id="menuDossier"> 
-              <li :class="$style.AccordeonTitle"> <i class="material-icons" :class="[$style.icon , $style.icon2x]">subject</i> <span :class="$style.navtext">Mes dossiers</span> </li>
-              <li :class="[$style.accordeonEl]" class="accordeonEl"><router-link :class="$style.link" :to="{name: 'browseDC' }"> <ul :class="$style.ulwrapper"><li :class="$style.links"> <i class="material-icons" :class="[$style.icon , $style.icon2x]">folder_open</i> <span :class="$style.navtext">Mes dossiers de compétences</span> </li> </ul> </router-link> </li>
-              <li :class="[$style.accordeonEl]" class= 'accordeonEl'><router-link :class="$style.link" :to="{name: 'browseEXP' }"> <ul :class="$style.ulwrapper"><li :class="$style.links"> <i class="material-icons" :class="[$style.icon , $style.icon2x]">style</i> <span :class="$style.navtext">Mes experiences</span> </li> </ul> </router-link></li>         
+    <nav class=" sidebar">
+      <div class="sidebar_inside">
+          <router-link class="link" :to="{name: 'home'}"> <ul class="ulwrapper"><li class="links">  <i class="material-icons icon icon2x">home</i><span class="navtext"> Page d'acceuil</span> </li> </ul> </router-link>
+          <router-link class="link" :to="{name: 'browseProfile'}"> <ul class="ulwrapper"><li class="links"> <i class="material-icons icon icon2x" >perm_identity</i> <span class="navtext">Mon profil</span> </li> </ul> </router-link>
+            <ul class="ulAccordeonWrapper" @click="expandAccordeonDossier" id="menuDossier"> 
+              <li class="AccordeonTitle"> <i class="material-icons icon icon2x">subject</i> <span class="navtext">Mes dossiers</span> </li>
+              <li  class="accordeonEl"><router-link class="link" :to="{name: 'browseDC' }"> <ul class="ulwrapper"><li class="links"> <i class="material-icons icon icon2x">folder_open</i> <span class="navtext">Mes dossiers de compétences</span> </li> </ul> </router-link> </li>
+              <li  class= 'accordeonEl'><router-link class="link" :to="{name: 'browseEXP' }"> <ul class="ulwrapper"><li class="links"> <i class="material-icons icon icon2x">style</i> <span class="navtext">Mes experiences</span> </li> </ul> </router-link></li>         
             </ul>
-                      <ul :class="$style.ulAccordeonWrapper" @click="expandAccordeonRex" id="menuRex"> 
-              <li :class="$style.AccordeonTitle"> <i class="material-icons" :class="[$style.icon , $style.icon2x]">subject</i> <span :class="$style.navtext">Mes REX</span> </li>
-              <li :class="[$style.accordeonEl]" class="accordeonEl"><router-link :class="$style.link" :to="{name: 'browseREX' }"> <ul :class="$style.ulwrapper"><li :class="$style.links"> <i class="material-icons" :class="[$style.icon , $style.icon2x]">assignment</i> <span :class="$style.navtext">Mes Retours d'experiences</span> </li> </ul> </router-link> </li>
-              <li :class="[$style.accordeonEl]" class= 'accordeonEl'><router-link :class="$style.link" :to="{name: 'manageREX' }"> <ul :class="$style.ulwrapper"><li :class="$style.links"> <i class="material-icons" :class="[$style.icon , $style.icon2x]">more</i> <span :class="$style.navtext">Tableau de bord</span> </li> </ul> </router-link></li>         
+                      <ul class="ulAccordeonWrapper" @click="expandAccordeonRex" id="menuRex"> 
+              <li class="AccordeonTitle"> <i class="material-icons icon icon2x">subject</i> <span class="navtext">Mes REX</span> </li>
+              <li class="accordeonEl"><router-link class="link" :to="{name: 'browseREX' }"> <ul class="ulwrapper"><li class="links"> <i class="material-icons icon icon2x">assignment</i> <span class="navtext">Mes Retours d'experiences</span> </li> </ul> </router-link> </li>
+              <li class= 'accordeonEl'><router-link class="link" :to="{name: 'manageREX' }"> <ul class="ulwrapper"><li class="links"> <i class="material-icons icon icon2x">more</i> <span class="navtext">Tableau de bord</span> </li> </ul> </router-link></li>         
             </ul>
-          <router-link :class="$style.link" :to="{name: 'documentation' }"><ul :class="$style.ulwrapper"><li :class="$style.links">  <i class="material-icons" :class="[$style.icon , $style.icon2x]">info</i> <span :class="$style.navtext">Documentation</span> </li> </ul> </router-link>
+          <router-link class="link" :to="{name: 'documentation' }"><ul class="ulwrapper"><li class="links">  <i class="material-icons icon icon2x">info</i> <span class="navtext">Documentation</span> </li> </ul> </router-link>
       </div>
     </nav>
 </template>
@@ -57,7 +57,7 @@ export default {
 </script>
 
 
-<style module>
+<style scoped>
 .icon2x {
   font-size: 2em;
 }

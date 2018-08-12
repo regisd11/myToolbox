@@ -46,7 +46,7 @@ export default {
 };
 </script>
 
-<style module>
+<style scoped>
 .wrapper {
   box-sizing: border-box;
   margin: 0;

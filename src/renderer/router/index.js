@@ -78,9 +78,10 @@ export default new Router({
                     }]
                 },
                 {
-                    path: 'editEXP',
+                    path: 'editEXP/:id',
                     name: 'editEXP',
-                    component: require('@/components/DC/editEXP').default
+                    component: require('@/components/DC/editEXP').default,
+                    props: true
                 },
                 {
                     path: 'newEXP',

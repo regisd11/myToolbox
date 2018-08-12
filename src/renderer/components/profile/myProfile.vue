@@ -1,12 +1,15 @@
 <template>
 <div id="wrapper">
-    <div id = "editProfile" :class="$style.editProfile">
-        <router-link :to="{name: 'editProfile'}" :class="$style.linkButton" > <i class="material-icons" :class="[$style.icon,$style.icon2x]" @click="handleToggle">add_circle</i></router-link>
+  <div class="title"> <h1> Mon Profil </h1></div>
+    <div id = "editProfile" class="editProfile">
+        <router-link :to="{name: 'editProfile'}" class="linkButton" > <i class="material-icons icon icon2x" @click="handleToggle">edit</i></router-link>
     </div>
-    <div id = "revert" :class="[$style.editProfile, $style.revert]">
-        <router-link :to="{name: 'browseProfile'}" :class="$style.linkButton"> <i class="material-icons" :class="[$style.icon,$style.icon2x]" @click="handleToggle">reply</i></router-link>
+    <div id = "revert" class="editProfile revert">
+        <router-link :to="{name: 'browseProfile'}" class="linkButton"> <i class="material-icons icon icon2x" @click="handleToggle">reply</i></router-link>
     </div>
-    <transition name="transition-page" mode="out-in"><router-view></router-view></transition>
+    <transition name="router-anim">
+      <router-view></router-view>
+    </transition>
 </div>
 </template>
 
@@ -37,7 +40,16 @@ export default {
 };
 </script>
 
-<style module>
+<style scoped>
+.wrapper {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  height: inherit;
+  width: 100%;
+}
+
 .editProfile {
   z-index: 500;
   position: fixed;
@@ -72,6 +84,56 @@ export default {
 }
 .icon:hover {
   font-size: 60px;
+}
+
+.title {
+  margin-left: 200px;
+  text-transform: uppercase;
+  grid-row-start: 2;
+  grid-column-start: 2;
+  grid-column-end: -1;
+  color: #2c2c2c;
+  justify-self: center;
+}
+
+.title h1 {
+  font-family: "EB Garamond", serif;
+  text-transform: uppercase;
+  font-size: 2.5em;
+  font-weight: bold;
+  line-height: 2.5em;
+  text-shadow: 0.07em 0.07em 0 rgba(0, 0, 0, 0.1);
+}
+
+.router-anim-enter-active {
+  animation: coming 1s;
+  animation-delay: 0.5s;
+  opacity: 0;
+}
+
+.router-anim-leave-active {
+  animation: going 0.5s;
+}
+
+@keyframes going {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+}
+
+@keyframes coming {
+  from {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0px);
+    opacity: 1;
+  }
 }
 </style>
 

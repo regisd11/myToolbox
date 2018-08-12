@@ -4,7 +4,7 @@
         <div class="title" id="subTitle"> <h1> </h1></div>
         <div id="content" class="content" >
                 <div v-for="exp in expList" :key="exp.id" class="experienceBlock"> 
-                  <router-link class="links" :to="{name: 'renderExp', params:{id:exp._id}}">
+                  <div id="ExpInfo" class="expInfo">
                   <i class="material-icons icon icon2x" >style</i> 
                   <div> 
                     <ul>
@@ -13,13 +13,17 @@
                       <li>date de la dernière modification : {{exp.updatedAt}}</li>
                     </ul>  
                     </div>
-                  </router-link> 
+                    </div>
+                    <div id="card-action-buttons" class="cardActionButtons">
+                      <router-link :to="{name: 'editEXP', params:{id:exp._id}}" class="linkButton button" @click="handleToggle">Editer</router-link>
+                      <router-link :to="{name: 'renderExp', params:{id:exp._id}}" class="linkButton button">visualiser </router-link>
+                    </div>  
                 </div>
         </div>
         <div id="render" class="render">
             <div id = "renderTitle" class="renderTitle">Aperçu de l'experience selectionnée</div>
             <div class="renderBox">
-              <transition name="fadeLeftSlide">
+              <transition name="ExpCard">
                 <router-view :key="$route.fullPath"></router-view>
               </transition>
             </div>
@@ -41,6 +45,11 @@ export default {
   computed: {
     expList() {
       return this.$store.state.EXPData.expList;
+    }
+  },
+  methods: {
+    handleToggle: function() {
+      this.$store.dispatch("toggleEditExpPage");
     }
   }
 };
@@ -69,21 +78,29 @@ export default {
 }
 .experienceBlock {
   display: flex;
-  align-content: center;
+  justify-content: space-between;
+  flex-flow: column nowrap;
   width: auto;
   padding: 5px;
   margin-left: 15px;
   box-shadow: 8px 8px 16px 0 rgba(0, 0, 0, 0.4);
-  cursor: pointer;
   border: 1px solid rgba(0, 0, 0, 0.4);
 }
+.expInfo {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+}
+
+.cardActionButtons {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-end;
+}
+
 .links {
   text-decoration: none;
   color: #000;
-}
-
-.experienceBlock:focus {
-  border: 1px solid rgba(63, 65, 202, 1);
 }
 
 .icon2x {
@@ -98,6 +115,54 @@ export default {
   vertical-align: middle;
   font-size: 50px;
 }
+.linkButton {
+  position: relative;
+  height: 50px;
+  width: 50px;
+  text-decoration: none;
+}
+.cardActionButtons .button:before {
+  top: 0;
+  left: -200%;
+  transition: all 0.7s;
+}
+
+.cardActionButtons .button:hover:before {
+  top: -30px;
+  left: -30px;
+}
+
+.cardActionButtons .button {
+  display: inline-block;
+  width: 100px;
+  height: 30px;
+  line-height: 30px;
+  margin: 20px;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid crimson;
+  transition: color 0.5s;
+  color: crimson;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: Helvetica;
+  font-size: 15px;
+  text-align: center;
+}
+
+.cardActionButtons .button:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  background: crimson;
+  height: 150px;
+  width: 200px;
+  border-radius: 50%;
+}
+
+.cardActionButtons .button:hover {
+  color: #fff;
+}
 
 .render {
   position: relative;
@@ -110,15 +175,35 @@ export default {
 .renderTitle {
   margin-bottom: 30px;
 }
-.fadeLeftSlide-enter-active {
-  transition: all 0.3s ease;
-}
-.fadeLeftSlide-leave-active {
-  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+
+.ExpCard-enter-active {
+  animation: coming 1s;
+  animation-delay: 0.5s;
+  opacity: 0;
 }
 
-.fadeLeftSlide-enter, .fadeLeftSlide-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  transform: translateX(10px);
-  opacity: 0;
+.ExpCard-leave-active {
+  animation: going 0.5s;
+}
+
+@keyframes going {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+}
+
+@keyframes coming {
+  from {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0px);
+    opacity: 1;
+  }
 }
 </style>
