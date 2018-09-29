@@ -8,6 +8,17 @@ import {
 } from 'electron'
 const db = {}
 
+db.profile = new datastore({
+    filename: path.join(remote.app.getPath('userData'), '/profile.db'),
+    autoload: true,
+    onload: err => {
+        if (err) {
+            console.log('Error while loading the profile database')
+        }
+    },
+    timestampData: true
+})
+
 db.exps = new datastore({
     filename: path.join(remote.app.getPath('userData'), '/exp.db'),
     autoload: true,

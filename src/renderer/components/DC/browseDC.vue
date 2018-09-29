@@ -1,7 +1,6 @@
 <template>
 <div id="BorwseDCWrapper">
     <div id = "main">
-        <h1>Explorer</h1>
     </div> 
     
 </div>

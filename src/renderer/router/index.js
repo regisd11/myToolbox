@@ -16,7 +16,7 @@ export default new Router({
             children: [{
                     path: 'browseProfile',
                     name: 'browseProfile',
-                    component: require('@/components/profile/browseProfile').default,
+                    component: require('@/components/profile/browseProfile').default
                 },
                 {
                     path: 'editProfile',
@@ -40,9 +40,10 @@ export default new Router({
                     component: require('@/components/REX/browseREX').default,
                 },
                 {
-                    path: 'editREX',
+                    path: 'editREX/:id',
                     name: 'editREX',
-                    component: require('@/components/REX/editREX').default
+                    component: require('@/components/REX/editREX').default,
+                    props: true
                 }
             ]
         },
@@ -56,9 +57,10 @@ export default new Router({
                     component: require('@/components/DC/browseDC').default,
                 },
                 {
-                    path: 'editDC',
+                    path: 'editDC/:id',
                     name: 'editDC',
-                    component: require('@/components/DC/editDC').default
+                    component: require('@/components/DC/editDC').default,
+                    props: true
                 }
             ]
         },
@@ -82,11 +84,6 @@ export default new Router({
                     name: 'editEXP',
                     component: require('@/components/DC/editEXP').default,
                     props: true
-                },
-                {
-                    path: 'newEXP',
-                    name: 'newEXP',
-                    component: require('@/components/DC/newEXP').default
                 }
             ]
         },

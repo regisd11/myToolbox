@@ -1,10 +1,12 @@
 <template>
   <div id="app">
     <div class="appLogoContainer"><img class="appLogo" v-bind:src="appLogoUrl"></div>
-
+      <transition name="router-anim" >
       <connectbuttons />
+      </transition>
+      <transition name="router-anim" >
       <sidebar />
-
+      </transition>
     <transition name="router-anim" >
       <router-view></router-view>
     </transition>
@@ -35,13 +37,21 @@ export default {
 
 <style scoped>
 /*
+* — wrapper —
+*/
+#app {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+}
+/*
 * — logo —
 */
 
 .appLogoContainer {
   position: fixed;
   height: 120px;
-  left: 2em;
+  left: 5px;
   top: 2em;
 }
 .appLogo {

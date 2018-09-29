@@ -4,17 +4,18 @@ import db from '../../datastore'
 
 // initial state
 const state = {
-    expList: []
+    DCsList: []
 }
 
 
 // getters
 const getters = {
-    expList: state => {
-        return state.expList
+    DCsList: state => {
+        return state.DCsList
     },
-    exp: (state, getters) => id => {
-        return state.expList.find(({
+    dc: (state, getters) => id => {
+
+        return state.DCsList.find(({
             _id
         }) => _id == id)
     }
@@ -22,77 +23,77 @@ const getters = {
 
 // actions
 const actions = {
-    storeExp({
+    storeDc({
         commit
-    }, exp) {
+    }, dc) {
         return new promise((resolve, reject) => {
-            let callback = (err, newExp, updatedExp) => {
+            let callback = (err, newDc, updatedDc) => {
                 if (err) {
                     console.error(err)
                     reject(err)
                 }
-                const expToBeSaved = updatedExp ? updatedExp : newExp
-                commit('saveExp', expToBeSaved)
+                const dcToBeSaved = updatedDc ? updatedDc : newDc
+                commit('saveDc', dcToBeSaved)
                 resolve()
             }
-            if (exp._id) {
-                db.exps.update({
-                    _id: exp._id,
-                }, exp, {
+            if (dc._id) {
+                db.DCs.update({
+                    _id: dc._id,
+                }, dc, {
                     returnUpdatedDocs: true
                 }, callback)
             } else {
-                db.exps.insert(exp, callback)
+                db.DCs.insert(dc, callback)
             }
         })
     },
-    removeExp({
+    removeDc({
         commit
     }, _id) {
         new promise((resolve, reject) => {
-            db.exps.remove({
+            db.DCs.remove({
                 _id: _id
             }, {}, (err, numRemoved) => {
                 if (err) {
                     console.error(err)
                     reject(err)
                 }
-                commit('deleteExp', _id)
+                commit('deleteDc', _id)
                 resolve()
             })
         })
     },
-    saveEXPact: (context, payload) => {
-        context.commit('saveExp', payload)
+    saveDcAct: (context, payload) => {
+        context.commit('saveDc', payload)
     },
-    populateExpStoreAct: (context) => {
-        context.commit("populateExpStore")
+    populateDcStoreAct: (context) => {
+        context.commit("populateDcStore")
     },
-    storeExpAct: (context, exp) => {
-        context.commit("storeExp", exp)
+    storeExpAct: (context, dc) => {
+        context.commit("storeDc", dc)
     }
 
 }
 
 // mutations
 const mutations = {
-    populateExpStore: (state) => {
-        db.exps.find({}, (err, result) => {
+    populateDcStore: (state) => {
+        db.DCs.find({}, (err, result) => {
             if (err) {
                 console.log('oula error : ' && err)
             } else {
-                state.expList = result
+                state.DCsList = result
             }
         })
     },
-    saveExp: (state, payload) => {
-        state.expList.unshift(payload)
+    saveDc: (state, payload) => {
+        state.DCsList.unshift(payload)
     },
-    deleteExp: (state, payload) => {
-        let index = state.expList.findIndex(({
+    deleteDc: (state, payload) => {
+        let index = state.DCsList.findIndex(({
             payload
         }) => _id === payload)
-        state.expList.splice(index, 1)
+        state.DCsList.splice(index, 1)
     }
 
 

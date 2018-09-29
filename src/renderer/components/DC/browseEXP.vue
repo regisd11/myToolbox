@@ -3,22 +3,26 @@
     <div id = "main" class="main">
         <div class="title" id="subTitle"> <h1> </h1></div>
         <div id="content" class="content" >
-                <div v-for="exp in expList" :key="exp.id" class="experienceBlock"> 
-                  <div id="ExpInfo" class="expInfo">
-                  <i class="material-icons icon icon2x" >style</i> 
-                  <div> 
-                    <ul>
-                      <li>Client: {{exp.client}}</li>
-                      <li>Nom: {{exp.experienceName}}</li>
-                      <li>date de la dernière modification : {{exp.updatedAt}}</li>
-                    </ul>  
-                    </div>
-                    </div>
-                    <div id="card-action-buttons" class="cardActionButtons">
-                      <router-link :to="{name: 'editEXP', params:{id:exp._id}}" class="linkButton button" @click="handleToggle">Editer</router-link>
-                      <router-link :to="{name: 'renderExp', params:{id:exp._id}}" class="linkButton button">visualiser </router-link>
-                    </div>  
+          <div class="experienceBox">
+            <div v-for="exp in expList" :key="exp.id" class="experienceBlock"> 
+              <div id="ExpInfo" class="expInfo">
+                <i class="material-icons icon icon2x" >style</i> 
+                <div> 
+                  <ul>
+                    <li>Client: {{exp.client}}</li>
+                    <li class = "experienceName">Nom: {{exp.experienceName}}</li>
+                    <li>date de la dernière modification : {{exp.updatedAt}}</li>
+                  </ul>  
                 </div>
+                <div id="expandCardBox" class="expandCardBox" @click="expand"><i class="material-icons">expand_more</i></div>
+              </div>
+              <div class="cardActionButtons">
+                <router-link :to="{name: 'editEXP', params:{id:exp._id}}" class="linkButton button edit" v-on:click="handleToggle">Editer</router-link>
+                <router-link :to="{name: 'renderExp', params:{id:exp._id}}" class="linkButton button visualise">visualiser </router-link>
+                <a class="linkButton button delete" @click="deleteExp(exp.experienceName, exp._id)">Supprimer</a>
+              </div>  
+            </div>
+          </div>
         </div>
         <div id="render" class="render">
             <div id = "renderTitle" class="renderTitle">Aperçu de l'experience selectionnée</div>
@@ -50,6 +54,45 @@ export default {
   methods: {
     handleToggle: function() {
       this.$store.dispatch("toggleEditExpPage");
+    },
+    expand: function(event) {
+      let e = event.target.parentNode.parentNode.parentNode;
+      if (e.classList.contains("expanded") != true) {
+        e.getElementsByClassName("Icon").fontSize = "60px";
+        let htmlCollectionArray = e.getElementsByTagName("li");
+        [].forEach.call(htmlCollectionArray, function(el, i) {
+          el.style.display = "list-item";
+        });
+        htmlCollectionArray = e.getElementsByClassName("cardActionButtons");
+        [].forEach.call(htmlCollectionArray, function(el, i) {
+          el.style.display = "flex";
+        });
+        e.classList.toggle("expanded");
+      } else {
+        e.classList.toggle("expanded");
+        e.getElementsByClassName("Icon").fontSize = "40px";
+        let htmlCollectionArray = e.getElementsByTagName("li");
+        [].forEach.call(htmlCollectionArray, function(el, i) {
+          el.style.display = "none";
+        });
+        htmlCollectionArray = e.getElementsByClassName("cardActionButtons");
+        [].forEach.call(htmlCollectionArray, function(el, i) {
+          el.style.display = "none";
+        });
+        htmlCollectionArray = e.getElementsByClassName("experienceName");
+        [].forEach.call(htmlCollectionArray, function(el, i) {
+          el.style.display = "list-item";
+        });
+      }
+    },
+    deleteExp: function(experienceName, expId) {
+      var answer = confirm(
+        "Supprimer l'experience" + ' "' + experienceName + '" ' + "data?"
+      );
+      if (answer) {
+        this.$store.dispatch("removeExp", expId);
+        this.$store.dispatch("populateExpStoreAct");
+      }
     }
   }
 };
@@ -68,20 +111,29 @@ export default {
 }
 .content {
   position: relative;
+  float: left;
   margin-top: 150px;
-  width: 90%;
+  width: 50%;
   margin-bottom: 50px;
+}
+
+.experienceBox {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   justify-content: flex-start;
   align-content: flex-start;
+  max-height: 600px;
+  width: 80%;
+  overflow: auto;
 }
+
 .experienceBlock {
   display: flex;
   justify-content: space-between;
   flex-flow: column nowrap;
-  width: auto;
+  width: 500px;
   padding: 5px;
+  margin-bottom: 20px;
   margin-left: 15px;
   box-shadow: 8px 8px 16px 0 rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(0, 0, 0, 0.4);
@@ -89,12 +141,17 @@ export default {
 .expInfo {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-around;
+  justify-content: space-between;
+}
+
+.expandCardBox {
+  transition: all 0.1s linear;
+  cursor: pointer;
 }
 
 .cardActionButtons {
-  display: flex;
-  flex-flow: row wrap;
+  display: none;
+  flex-flow: row nowrap;
   justify-content: flex-end;
 }
 
@@ -106,15 +163,24 @@ export default {
 .icon2x {
   font-size: 2em;
 }
-.icon {
-  position: relative;
+.expInfo .icon {
   display: table-cell;
+  position: relative;
   width: 60px;
   height: 36px;
   text-align: center;
   vertical-align: middle;
-  font-size: 50px;
+  font-size: 40px;
+  transition: all 0.7s;
 }
+.expInfo li {
+  display: none;
+  list-style: none;
+}
+.expInfo .experienceName {
+  display: list-item;
+}
+
 .linkButton {
   position: relative;
   height: 50px;
@@ -164,13 +230,20 @@ export default {
   color: #fff;
 }
 
+.delete {
+  cursor: pointer;
+}
+
 .render {
   position: relative;
-  width: 90%;
+  float: right;
+  width: 50%;
 }
 
 .renderBox {
+  position: relative;
   background-color: grey;
+  width: 90%;
 }
 .renderTitle {
   margin-bottom: 30px;

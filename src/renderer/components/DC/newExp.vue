@@ -3,6 +3,7 @@
     <div id = "main" class="main">
       <div class="title" id="subTitle"> <h1>  Editer une nouvelle experience  </h1></div>
       <div class="content" id = "content">
+        <div class="experienceEdit">
         <div class="experienceInfo" id ="experienceInfo">
           <p class="experienceName" id="pProject">
             <label for="experienceName">Nom de l'expérience : </label>
@@ -31,7 +32,7 @@
         </div >
 
         <div id = "experiencesContent" class="experiencesContent">
-          <div id="addSubject" @click="addSubject" class="subjectButton"><i class="material-icons icon ">add_circle</i> <span> Ajouter un sujet </span></div>
+          <div id="addSubject" @click="addSubject" class="subjectButton"><i class="material-icons icon ">add_circle</i><span>Sujet</span></div>
           <div id="subjects" class="subjects">
             <div id="subject" class="subject" v-for="(subject, index) in exp.subjects" :key="subject.id">
               <div id="deleteSubject" class="deleteEl" @click="deleteSubject(subject)">X</div>
@@ -40,7 +41,7 @@
                 <textarea type="text" name="sujet" id="subjectText" v-model="exp.subjects[index].subject"> </textarea>
               </div>
               <div class="subjectContent">
-                <div @click="addTask(subject)" id="addTast" class="addTast"><i class="material-icons icon icon2x">add_circle</i>Ajouter une tache</div>
+                <div @click="addTask(subject)" id="addTast" class="addTast"><i class="material-icons icon icon2x">add_circle</i>Tache</div>
                 <div id="tasks" class="tasks">
                   <div id="task" class="task" v-for="(task, index) in subject.tasks" :key="task.id">
                     <div id="deleteTask" class="deleteEl" @click="deleteTask(subject,task)">X</div>
@@ -48,7 +49,7 @@
                       <label for="task">Tache : </label>
                       <textarea type="text" name="sujet" id="taskText"  v-model="subject.tasks[index].task"> </textarea>
                     </div>
-                    <div @click="addSubTask(task)" id="addSubTask" class="addSubTask"><i class="material-icons icon icon2x">add_circle</i>Ajouter une sous-tache</div>
+                    <div @click="addSubTask(task)" id="addSubTask" class="addSubTask"><i class="material-icons icon icon2x">add_circle</i>Sous-tache</div>
                     <div id="subTasks" class="subTasks">
                       <div class="subTask"  v-for="(subTask,index) in task.subTasks" :key="subTask.id" >
                         <div id="deleteSubTask" class="deleteEl" @click="deleteSubTask(task, subTask)">X</div>
@@ -63,7 +64,33 @@
               </div>
             </div>  
           </div>            
-        </div>        
+        </div> 
+        </div>
+        <div class="experienceRender" id="experienceRender">
+          <div id = "mainRender" class="mainRender">
+        <div id = "titleCard" class="titleCard">
+          <div id = "clientName_missionLength" class="clientName_missionLength">
+            {{exp.client}} - {{experienceLength}} 
+          </div>
+          <div id = "MissionTitle" class="MissionTitle">{{exp.experienceTitle}}</div>
+        </div>
+        <div id = "expContent" class="expContent">
+          <div id ="missionContext" class = "missionContext">
+           <div class="contextLabel">Context :</div><p class="contentText">{{exp.context}}</p> 
+          </div>
+          <div id = "missionSubjects" class = "missionSubjects" v-for="(subject,index) in exp.subjects" :key="subject.id">
+              <div id="subjectTitle" class="subjectTitle">{{exp.subjects[index].subject}}</div>
+              <ul id ="tasks" class="tasks" v-for="(task,index) in subject.tasks" :key="task.id">
+                <li><span class="puce">&#x2023;</span> {{subject.tasks[index].task}}
+                  <ul id="substasks" class="substasks" v-for="(subTask,index) in task.subTasks" :key="subTask.id">
+                    <li id="subtask" class="subtask"><span class="puce">&#x2023;</span> {{task.subTasks[index].subTask}}</li>
+                  </ul>
+                </li>
+              </ul>
+          </div>
+        </div>
+    </div> 
+        </div>     
       </div>
       <div id = "sideButons" class="sideButtons">
       <div id="submit" class="submit" @click="submit(exp)">
@@ -162,6 +189,64 @@ export default {
         }
       );
     }
+  },
+  computed: {
+    experienceLength: function dateDiff() {
+      var diff = {}; // Initialisation du retour
+      var date1 = new Date(this.exp.experienceBegin);
+      var date2 = new Date(this.exp.experienceEnd);
+      var tmp = date2 - date1;
+      tmp = Math.floor(tmp / 1000); // Nombre de secondes entre les 2 dates
+      diff.sec = tmp % 60; // Extraction du nombre de secondes
+      tmp = Math.floor((tmp - diff.sec) / 60); // Nombre de minutes (partie entière)
+      diff.min = tmp % 60; // Extraction du nombre de minutes
+      tmp = Math.floor((tmp - diff.min) / 60); // Nombre d'heures (entières)
+      diff.hour = tmp % 24; // Extraction du nombre d'heures
+      tmp = Math.floor((tmp - diff.hour) / 24); // Nombre de jours restants
+      diff.day = tmp % 24; // Extraction du nombre de jours
+      tmp = Math.floor((tmp - diff.day) / 30); // Nombre de mois restants
+      diff.month = tmp % 30; // Extraction du nombre de mois
+      tmp = tmp / 12; // Nombre de jours restants
+      diff.year = tmp % 12; // Extraction du nombre d'années
+
+      var total = "";
+      var year = Math.floor(diff.year);
+      var month = Math.round((diff.year - Math.floor(diff.year)) * 12);
+      if (diff.year > 0 && diff.year < 1) {
+        var year = Math.floor(diff.year);
+        var month = Math.round((diff.year - Math.floor(diff.year)) * 12);
+        total = month + " mois";
+      } else if (diff.year == 1) {
+        var year = Math.floor(diff.year);
+        var month = Math.round((diff.year - Math.floor(diff.year)) * 12);
+        total = year + " an";
+      } else if (diff.year > 1 && diff.year < 1.5) {
+        var year = Math.floor(diff.year);
+        var month = Math.round((diff.year - Math.floor(diff.year)) * 12);
+        total = year + " an " + month + " mois";
+      } else if (diff.year > 1.5 && diff.year < 2) {
+        var year = Math.floor(diff.year);
+        var month = Math.round((diff.year - Math.floor(diff.year)) * 12);
+        total = year + " an " + month + " mois";
+      } else if (diff.year == 1.5) {
+        total = diff.month + " mois";
+      } else if (diff.year > 1.5 && diff.year < 2) {
+        var year = Math.floor(diff.year);
+        var month = Math.round((diff.year - Math.floor(diff.year)) * 12);
+        total = year + " an " + month + " mois";
+      } else if (diff.year > 2) {
+        var year = Math.floor(diff.year);
+        var month = Math.round((diff.year - Math.floor(diff.year)) * 12);
+        total = year + " ans " + month + " mois";
+      } else if (diff.year == 2) {
+        var year = Math.floor(diff.year);
+        var month = Math.round((diff.year - Math.floor(diff.year)) * 12);
+        total = year + " ans ";
+      } else {
+        total = "0 mois";
+      }
+      return total;
+    }
   }
 };
 </script>
@@ -176,7 +261,7 @@ export default {
   text-decoration: none;
   display: grid;
   position: relative;
-  grid-template-columns: repeat(2, [column] auto);
+  grid-template-columns: 90px repeat(1, [column] auto);
   grid-template-rows: repeat(3, [row] auto);
   grid-gap: 30px;
 }
@@ -187,7 +272,7 @@ export default {
 
 .title {
   text-transform: uppercase;
-  grid-row-start: 2;
+  grid-row-start: 1;
   grid-column-start: 2;
   grid-column-end: -1;
   color: #2c2c2c;
@@ -208,17 +293,17 @@ export default {
 */
 
 .content {
-  grid-row-start: 3;
-  grid-column: 2 / -1;
   position: relative;
-  width: 90%;
-  display: grid;
-  grid-template-columns: 150px 1fr;
-  grid-template-rows: auto [last-line];
-  grid-gap: 10px;
+  width: 92%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  padding: 15px;
   border: 1px solid rgba(0, 0, 0, 0.4);
   box-shadow: 16px 16px 32px 16px rgba(0, 0, 0, 0.4);
   margin-bottom: 50px;
+  grid-column: 2 / -1;
+  grid-row: 2 / -1;
 }
 .icon {
   position: relative;
@@ -241,39 +326,36 @@ export default {
 .experienceInfo .client textarea {
   position: relative;
   text-align: start;
-  width: 500px;
+  width: 300px;
 }
 .experienceInfo .experienceName textarea {
   position: relative;
   text-align: start;
-  width: 500px;
+  width: 300px;
 }
 
 .experienceInfo {
-  grid-row-start: 3;
-  grid-column-start: 2;
-  grid-column-end: -1;
-  display: block;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
 }
 .experienceInfo .context textarea {
   position: relative;
   text-align: start;
   width: 500px;
-  height: 200px;
+  height: 100px;
 }
 .experienceInfo p label {
   position: relative;
   display: inline-block;
   justify-content: flex-start;
   vertical-align: top;
-  width: 200px;
+  width: 100px;
 }
 
 .experiencesContent {
-  grid-row-start: 4;
-  grid-column-start: 2;
-  grid-column-end: -1;
   display: flex;
+  flex-flow: column nowrap;
 }
 
 .deleteEl {
@@ -295,7 +377,7 @@ export default {
   grid-column-end: -1;
   display: inline-block;
   margin-left: 20px;
-  width: 1000px;
+  width: 700px;
 }
 
 .subject {
@@ -326,7 +408,7 @@ export default {
 }
 .subjectName textarea {
   position: relative;
-  width: 90%;
+  width: 50%;
 }
 
 .subjectContent {
@@ -344,6 +426,7 @@ export default {
 .subjectButton {
   display: inline-block;
   height: 32px;
+  width: 100px;
 }
 
 .subjectButton i {
@@ -534,8 +617,8 @@ export default {
 
 .taskName textarea {
   text-align: start;
-  width: 70%;
-  max-width: 70%;
+  width: 50%;
+  max-width: 50%;
 }
 
 .subTasks {
@@ -565,7 +648,89 @@ export default {
 }
 .subTaskName textarea {
   text-align: start;
-  width: 70%;
-  max-width: 70%;
+  width: 50%;
+  max-width: 50%;
+}
+
+/*
+----- Render ------
+*/
+
+.experienceRender {
+  position: relative;
+  background-color: gray;
+  height: inherit;
+  width: 50%;
+}
+
+.mainRender {
+  position: fixed;
+  top: 20em;
+  right: 20em;
+  width: 457px;
+  height: 600px;
+}
+.titleCard {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  height: 53px;
+  width: 100%;
+  background-color: #d2d958;
+  border: 1px solid #000;
+  margin-bottom: 5px;
+  font-weight: bolder;
+}
+.clientName_missionLength {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.MissionTitle {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+}
+
+.expContent {
+  background-color: #fff;
+  border: 1px solid #000;
+  font-size: 12.5px;
+  display: block;
+  padding-bottom: 15px;
+  height: 547;
+}
+
+.expContent * {
+  margin: 0;
+}
+.missionContext {
+  margin-top: 12px;
+}
+.missionContext .contextLabel {
+  float: left;
+  font-weight: bold;
+}
+.missionContext .contentText {
+  font-style: italic;
+}
+.missionSubjects {
+  margin-top: 15px;
+}
+.subjectTitle {
+  font-weight: bold;
+}
+ul {
+  padding-left: 0;
+}
+li {
+  list-style: none;
+  padding-left: 20px;
+}
+.puce {
+  font-size: 18px;
+  color: #d2d958;
 }
 </style>

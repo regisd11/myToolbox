@@ -3,12 +3,13 @@
     <div id = "main" class="main">
       <div class="title"> <h1> Mes expériences </h1></div>
     </div> 
-    <div id = "newEXP" class="newEXP">
-        <router-link :to="{name: 'newEXP'}" class="linkButton" > <i class="material-icons icon icon2x" @click="handleToggle">add_circle</i></router-link>
-    </div>
-    <div id = "revert" class="newEXP revert">
+    <div v-if="editExpPage" id = "revert" class="newEXP revert">
         <router-link :to="{name: 'browseEXP'}" class="linkButton"> <i class="material-icons icon icon2x" @click="handleToggle">reply</i></router-link>
     </div>
+    <div v-else id = "newEXP" class="newEXP">
+        <router-link :to="{name: 'editEXP', params:{id:0}}" class="linkButton" > <i class="material-icons icon icon2x" @click="handleToggle">add_circle</i></router-link>
+    </div>
+  
     <div class="page">
     <transition name="router-anim">
       <router-view></router-view>
@@ -20,12 +21,6 @@
 <script>
 export default {
   name: "myEXP",
-  /*mounted() {
-    this.$store.dispatch("populateExpStoreAct", this.$db.exps);
-  },*/
-  mounted() {
-    this.$store.dispatch("populateExpStoreAct");
-  },
   computed: {
     editExpPage() {
       return this.$store.state.EXP.editExpPage;
@@ -35,30 +30,11 @@ export default {
     handleToggle: function() {
       this.$store.dispatch("toggleEditExpPage");
     }
-  },
-  watch: {
-    editExpPage: function(editExpPage) {
-      if (editExpPage == true) {
-        document.getElementById("newEXP").style.display = "none";
-        document.getElementById("revert").style.display = "block";
-      } else {
-        document.getElementById("newEXP").style.display = "block";
-        document.getElementById("revert").style.display = "none";
-      }
-    }
   }
 };
 </script>
 
 <style scoped>
-.wrapper {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  position: fixed;
-  height: inherit;
-  width: 100%;
-}
 .newEXP {
   z-index: 500;
   position: fixed;
@@ -69,7 +45,7 @@ export default {
   display: block;
 }
 .revert {
-  display: none;
+  display: block;
 }
 
 .linkButton {

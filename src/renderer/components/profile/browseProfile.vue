@@ -1,21 +1,31 @@
 <template>
 <div id="wrapper">
     <div class="main">
-        <div class="cardbox">
-        <div class="photo"><a href="https://placeholder.com" prevent><img src="http://via.placeholder.com/300x480"></a></div>
+      <div class="cardbox">
+        <div class="photo"><img v-bind:src='photo'></div>
         <div class="content">
-            <div class="element"><div class="consultantName data" id="name"> {{consultantName}}</div></div>
-            <div class="element"><div class="consultantPosition data" id="grade"> {{consultantPosition}}</div></div>
-            <div class="element"><label for="name"> Communauté : </label><div class="consultantCommunity data" id="community"> {{consultantCommunity}}</div></div>
-            <div class="element"><label for="languages"> Langues : </label><ul class="consultantLanguages data" id="languages">
-                <li v-for="language in consultantLanguages " :key="language.language" class="language">
-                {{ language.language }},  {{ language.level }} {{ language.eval }},{{ language.grade }}
-                </li></ul>
-              </div>
-            <div class="element"></div>
+            <div class="element"><div class="consultantName data" id="name"> {{profile.consultantName}}</div></div>
+            <div class="element"><div class="consultantPosition data" id="grade"> {{profile.consultantPosition}}</div></div>
+            <div class="element"><label for="name"> Communauté : </label><div class="consultantCommunity data" id="community"> {{profile.consultantCommunity}}</div></div>
+            <div class="element">Langues :</div>
+            <table >
+              <thead>
+              <tr>
+                <th>Langue</th>
+                <th>Niveau</th>
+                <th>Examen</th>
+                <th>Note</th>
+              </tr>
+              </thead>
+              <tr v-for="language in profile.consultantLanguages" :key="language.language">
+                <td>{{ language.language }}</td>
+                <td>{{ language.level }}</td>
+                <td>{{ language.eval }}</td>
+                <td>{{ language.grade }}</td>
+              </tr>
+            </table>
         </div>
-
-    </div> 
+      </div> 
     </div>
 </div>
 </template>
@@ -24,41 +34,15 @@
 <script>
 export default {
   name: "browseProfile",
-  data: () => ({
-    consultantName: "Régis Dupin",
-    consultantPosition: "Consultant Senior 1",
-    positionsChoices: {
-      grade: "Consultant",
-      grade: "Consultant senior 1",
-      grade: "Consultant senior 2",
-      grade: "Program manager",
-      grade: "Senior manager"
+
+  computed: {
+    photo() {
+      return this.$store.state.photoLoader.photo;
     },
-    consultantLanguages: [
-      { language: "Français", level: "Maternelle", eval: "", grade: "" },
-      { language: "Anglais", level: "Courant", eval: "TOEIC", grade: "990" },
-      { language: "Allemand", level: "Professionel", eval: "", grade: "" }
-    ],
-    langagesChoice: [
-      { fr: "Français", en: "French" },
-      { fr: "Anglais", en: "English" },
-      { fr: "Allemand", en: "German" },
-      { fr: "Espagnol", en: "Spanish" },
-      { fr: "Italien", en: "Italian" },
-      { fr: "Russe", en: "Russian" },
-      { fr: "Polonais", en: "Polish" },
-      { fr: "Chinois (Mandarin)", en: "Chinese (Mandarin)" },
-      { fr: "Chinois (Cantonais)", en: "Chinese (Cantonese)" },
-      { fr: "Portugais", en: "Portugese" }
-    ],
-    consultantCommunity: "ADI",
-    communityChoice: {
-      community: "ADI",
-      community: "MGT",
-      community: "MKT",
-      community: "RFR"
+    profile() {
+      return this.$store.state.ProfileData.profile;
     }
-  })
+  }
 };
 </script>
 
@@ -114,6 +98,43 @@ export default {
 }
 .data {
   margin-left: 5px;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+thead {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  background: #c0c0c0;
+}
+
+tr {
+  border-top: 1px solid #e6e6e6;
+}
+
+td {
+  font-weight: 100;
+}
+
+th,
+td {
+  padding: 0.75rem 1rem;
+}
+
+td:first-child,
+th:first-child {
+  text-align: left;
+}
+
+td:nth-last-child(2),
+th:nth-last-child(2) {
+  text-align: right;
+}
+
+td + td:not(:nth-last-child(2)) {
+  text-align: center;
 }
 </style>
 
