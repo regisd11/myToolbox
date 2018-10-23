@@ -20,6 +20,9 @@
 <script>
 export default {
   name: "myDC",
+  mounted() {
+    this.$store.dispatch("populateDcStoreAct");
+  },
   computed: {
     editDcPage() {
       return this.$store.state.DC.editDcPage;

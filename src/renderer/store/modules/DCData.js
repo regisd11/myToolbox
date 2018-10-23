@@ -14,7 +14,6 @@ const getters = {
         return state.DCsList
     },
     dc: (state, getters) => id => {
-
         return state.DCsList.find(({
             _id
         }) => _id == id)
@@ -69,7 +68,7 @@ const actions = {
     populateDcStoreAct: (context) => {
         context.commit("populateDcStore")
     },
-    storeExpAct: (context, dc) => {
+    storeDcAct: (context, dc) => {
         context.commit("storeDc", dc)
     }
 

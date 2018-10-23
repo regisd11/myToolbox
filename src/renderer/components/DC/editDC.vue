@@ -7,70 +7,176 @@
     </div>
     <div class="content" id = "content">
       <div class="DCEdit">
-          <div class="FirstPageInfo">
-            <div id="PitchBox">
-              <label for="pitch">Presentation : </label>
-              <textarea type="text" name="pitch" id="pitch"  v-model="dc.pitch"></textarea>
-            </div>
-            <div id="JobBox">
-              <label for="Job">Position : </label>
-              <textarea type="text" name="Job" id="Job"  v-model="dc.Job"></textarea>
-            </div>
-            <div id = "expYearsBox">
-              <label for="expYears">Année d'experiences : </label>
-              <textarea type="text" name="expYears" id="expYears"  v-model="dc.expYears"></textarea>
-            </div>
-            <div id="trainings" class="bottomBox"> Formations :
-              <div id="addTraining" @click="addTraining" class="button"><i class="material-icons icon ">add_circle</i> <span>Formation</span></div>
-              <div id="expandTrainings" class="expand" @click="expand"><i class="material-icons">expand_more</i></div>
-              <div id="trainingsList" v-for="(training,index) in this.dc.trainings" :key="training.id">
-                <div id="deleteTraining" class="deleteEl" @click="deleteTraining(training)">X</div>
-                <div class="TrainingName">
-                  <label for="training">Formation : </label>
-                  <textarea type="text" name="training" id="trainingText" v-model="dc.trainings[index].training"> </textarea>
+          <div class="FirstPageInfo box">
+            <div class="tile is-ancestor">
+              <div class="tile is-parent">
+                <div class="title is-parent">
+                  <div class="tile is-child">
+                    <div class="field"  id = "expYearsBox">
+                      <span id="consultantName">{{profile.consultantName}}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div id="expertises" class="bottomBox"> Expertises :
-              <div id="addExpertises" @click="addExpertise" class="button"><i class="material-icons icon ">add_circle</i> <span>Expertise</span></div>
-              <div id="expandExpertises" class="expand" @click="expand"><i class="material-icons">expand_more</i></div>
-              <div id="expertisesList" v-for="(expertise,index) in this.dc.expertises" :key="expertise.id">
-                <div id="deleteExpertise" class="deleteEl" @click="deleteExpertise(expertise)">X</div>
-                <div class="expertiseName">
-                  <label for="expertise">expertise : </label>
-                  <textarea type="text" name="expertise" id="expertiseText" v-model="dc.expertises[index].expertise"> </textarea>
+
+              <div class="tile is-parent">
+                <div class="tile is-child">
+                  <div class="field"  id = "expYearsBox">
+                    <label class="label" for="expYears">Année d'experiences : </label>
+                    <div class="control">
+                      <div class="select" >
+                        <select name="expYears" id="expYears" v-model="dc.expYears">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
+
             </div>
-            <div id="sectors" class="bottomBox"> Secteurs d'activités : 
-              <div id="addSectors" @click="addSector" class="button"><i class="material-icons icon ">add_circle</i> <span>Secteur</span></div>
-              <div id="expandSectors" class="expand" @click="expand"><i class="material-icons">expand_more</i></div>
-              <div id="sectorsList" v-for="(sector,index) in this.dc.sectors" :key="sector.id">
-                <div id="deleteExpertise" class="deleteEl" @click="deleteSector(sector)">X</div>
-                <div class="sectorName">
-                  <label for="sector">secteur d'activité : </label>
-                  <textarea type="text" name="sector" id="sectorText" v-model="dc.sectors[index].sector"> </textarea>
-                </div>
-              </div>
-            </div>
-            <div id="clients" class="bottomBox"> Principaux clients :
-              <div id="addClients" @click="addClient" class="button"><i class="material-icons icon ">add_circle</i> <span>Client</span></div>
-              <div id="expandClients" class="expand" @click="expand"><i class="material-icons">expand_more</i></div>
-              <div id="clientsList" v-for="(client,index) in this.dc.clients" :key="client.id">
-                <div id="deleteclient" class="deleteEl" @click="deleteClient(client)">X</div>
-                <div class="clientName">
-                  <label for="client">client : </label>
-                  <textarea type="text" name="client" id="clientText" v-model="dc.clients[index].client"> </textarea>
-                </div>
-              </div>
-            </div>
-            <div class="experiencesAdded"> Expériences ratachées au dossier de compétences :
+
+            <div class="tile is-ancestor">
               
+              <div id="photo" class="tile is parent is-2">
+                <div class="tile is-child">
+                  <div class="photo"><img v-bind:src='photo'></div>
+                </div>
+              </div>
+
+
+              <div class="tile is-parent is-6">
+                <div class="tile is-child">
+                  <div class="field" id="myPitch">
+                    <label for="myPitch"> Presentation : </label>
+                    <div class="control">
+                      <textarea class="textarea" type="text" name="myPitch" id="myPitch" rows="6" v-model="dc.myPitch"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tile is-parent">
+                <div class="tile is-child">
+                  <div class="field" id="JobBox">
+                    <label for="Job">Position : </label>
+                    <div class="control">
+                      <input type="text" name="Job" id="Job" class="input" v-model="dc.job">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tile is-ancestor">
+              <div class="tile is-parent">
+                <div class="tile is-child box">
+                <div id="trainings" class="bottomBox">
+                  <div class="level"> <span class="level-left">Formations</span><span id="addTraining" @click="addTraining" class="button level-right"><i class="material-icons icon ">add_circle</i></span></div>
+                  <div id="trainingsList" v-for="(training,index) in dc.trainings" :key="training.id">
+                      <div class="TrainingName control">
+                        <div class="level">
+                          <input class="input" type="text" name="training" id="trainingText" v-model="dc.trainings[index].training">
+                          <a id="deleteTraining" class="delete" @click="deleteTraining(training)"></a>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tile is-parent">
+              <div class="tile is-child box">
+                <div id="expertises" class="bottomBox"> 
+                  <div class="level"><span class="level-left">Expertises</span><span id="addExpertises" @click="addExpertise" class="button level-right"><i class="material-icons icon ">add_circle</i></span></div>
+                  <div id="expertisesList" v-for="(expertise,index) in dc.expertises" :key="expertise.id">
+                      <div class="ExpertiseName control">
+                        <div class="level">
+                          <input class="input" type="text" name="expertise" id="expertiseText" v-model="dc.expertises[index].expertise">
+                          <a id="deleteTraining" class="delete" @click="deleteExpertise(expertise)"></a>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tile is-parent">
+              <div class="tile is-child box">
+                <div id="sectors" class="bottomBox">
+                  <div class="level"><span class="level-left">Secteurs d'activité</span><span id="addSectors" @click="addSector" class="button level-right"><i class="material-icons icon ">add_circle</i></span></div>
+                  <div id="sectorsList" v-for="(sector,index) in dc.sectors" :key="sector.id">
+                      <div class="SectorName control">
+                        <div class="level">
+                          <input class="input" type="text" name="sector" id="sectorText" v-model="dc.sectors[index].sector">
+                          <a id="deleteTraining" class="delete" @click="deleteSector(sector)"></a>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+
+            <div class="tile is-parent">
+              <div class="tile is-child box">
+                <div id="clients" class="bottomBox">
+                  <div class="level"><span class="level-left">Principaux clients</span><span id="addClients" @click="addClient" class="button level-right"><i class="material-icons icon ">add_circle</i></span></div>
+                  <div id="expandClients" class="expand" @click="expand"><i class="material-icons">expand_more</i></div>
+                  <div id="clientsList" v-for="(client,index) in dc.clients" :key="client.id">
+                      <div class="clientName control">
+                        <div class="level">
+                          <input class="input" type="text" name="client" id="clientText" v-model="dc.clients[index].client">
+                          <a id="deleteTraining" class="delete" @click="deleteClient(client)"></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+          </div>
+
+          <div class="box">
+          <div class="container is-fluid expSelect">
+          <span id="experiencesAdded" class="experiencesAdded"> Expériences ratachées au dossier de compétences : </span>
+          <span class="control expSelectControl"> 
+            <select id="expSelected">
+              <option  v-for="exp in expList" :value="exp.experienceName" :key="exp.experienceName" >{{exp.experienceName}}</option>
+            </select> 
+          </span>
+          <span id = "addButton" class="button addButton" @click="add_exp">ajouter</span>
+          </div>
+          <div id="expselected">
+            <div class="notification" v-for="exp in dc.expSelectedForDC" :key="exp.experienceName">
+              <span> {{exp.experienceName}} </span>
+              <span class="delete" @click="deleteExperience(exp)"></span>
+            </div>
+          </div>
+          </div>
+          <button class="button" @click="submit(dc)">Enregister</button>
       </div>
     </div>
-  </div>
 </div>
 
 </template>
@@ -83,6 +189,7 @@ export default {
     notificationClass: null,
     dc: {},
     edit: false,
+    years: false,
     animation: {
       enter: {
         opacity: [1, 0],
@@ -103,15 +210,18 @@ export default {
     } else {
       this.dc = {
         job: null,
-        pitch: null,
+        myPitch: null,
         expYears: null,
         trainings: [],
-        Expertises: [],
-        Sectors: [],
-        Clients: [],
-        explist: []
+        expertises: [],
+        sectors: [],
+        clients: [],
+        expSelectedForDC: []
       };
     }
+  },
+  mounted() {
+    this.$store.dispatch("populateExpStoreAct");
   },
   computed: {
     expList() {
@@ -119,6 +229,9 @@ export default {
     },
     profile() {
       return this.$store.state.ProfileData.profile;
+    },
+    photo() {
+      return this.$store.state.photoLoader.photo;
     }
   },
   methods: {
@@ -198,12 +311,64 @@ export default {
           });
         }
       }
+    },
+    add_exp: function() {
+      var e = document.getElementById("expSelected");
+      var expSelected = e.options[e.selectedIndex].value;
+      console.log(expSelected);
+      for (let index = 0; index < this.expList.length; index++) {
+        const element = this.expList[index].experienceName;
+        if (element == expSelected) {
+          this.dc.expSelectedForDC.push(this.expList[index]);
+        }
+      }
+    },
+    deleteExperience: function(exp) {
+      this.dc.expSelectedForDC.splice(this.dc.expSelectedForDC.indexOf(exp), 1);
+    },
+    submit: function(myDc) {
+      this.$store.dispatch("storeDc", myDc).then(
+        () => {
+          console.log("Le formulaire a été validé");
+          this.notificationClass = "vue-notification success";
+          this.$notify({
+            group: "foo",
+            title: `Success!`,
+            text: "Le dossier de compétence a été enregistré !",
+            type: "",
+            duration: 3000
+          });
+        },
+        err => {
+          console.log("Le formulaire n'a pas été validé");
+          console.error(err);
+          this.notificationClass = "vue-notification error";
+          this.$notify({
+            group: "foo",
+            title: `Erreur !`,
+            text:
+              "Un problème est survenu, merci de contacter votre administrateur",
+            type: "",
+            duration: 3000
+          });
+        }
+      );
+    }
+  },
+  watch: {
+    years: function() {
+      if (this.dc.expYears > 1) {
+        this.years = true;
+      } else {
+        this.years = false;
+      }
     }
   }
 };
 </script>
 
 <style scoped>
+@import "~bulma/css/bulma.css";
 .main {
   z-index: 2;
   height: 100%;
@@ -238,75 +403,9 @@ export default {
 /*
 * — Contenu —
 */
-
 .content {
+  width: 90%;
 }
-
-.bottomBox {
-  position: relative;
-  width: 100%;
-  height: 38px;
-  line-height: 38px;
-  background-color: #3443c5;
-  color: #fff;
-  font-weight: bold;
-  padding-left: 10px;
-  border-bottom: 2px solid #000;
-}
-
-/*
-Buttons
-*/
-.button {
-  margin-left: 20px;
-  display: inline-block;
-  height: 30px;
-  line-height: 30px;
-}
-
-.button i {
-  padding: 0;
-  margin-bottom: 1px;
-  height: 30px;
-  width: 30px;
-  font-size: 30px;
-}
-
-.button span {
-  margin: auto;
-  padding: 0;
-  height: 15px;
-  width: auto;
-  font-size: 15px;
-  margin-right: 2px;
-  margin-left: 2px;
-}
-
-.button {
-  background: linear-gradient(to bottom, #ffffff 5%, #c2cbda 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3d94f6', endColorstr='#1e62d0',GradientType=0);
-  background-color: #c2cbda;
-  border-radius: 6px;
-  border: 1px solid #c2cbda;
-  display: inline-block;
-  cursor: pointer;
-  color: #000;
-  font-family: Arial;
-  font-weight: bold;
-  text-decoration: none;
-  text-shadow: 0px 1px 0px #c2cbda;
-}
-
-.button:hover {
-  background: linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e62d0', endColorstr='#3d94f6',GradientType=0);
-  background-color: #1e62d0;
-}
-.button:active {
-  position: relative;
-  top: 1px;
-}
-
 .deleteEl {
   position: absolute;
   font-family: Arial, Helvetica, sans-serif;
@@ -325,6 +424,24 @@ Buttons
   top: 10px;
   transition: all 0.1s linear;
   cursor: pointer;
+}
+
+.expSelect {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: left;
+}
+
+.expSelectControl {
+  margin-left: 3rem;
+}
+
+.addButton {
+  margin-left: 3rem;
+}
+
+#photo {
+  margin-left: 2rem;
 }
 </style>
 

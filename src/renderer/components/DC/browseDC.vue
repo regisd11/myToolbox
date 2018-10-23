@@ -1,6 +1,26 @@
 <template>
 <div id="BorwseDCWrapper">
-    <div id = "main">
+    <div id = "main box">
+      <div class="content" id = "content">
+        <div class="tile is-ancestor">
+          <div class="tile is-parent" v-for="dc in dcList" :key="dc.index">
+            <div class="box">
+              <div class="tile is-parent">
+                <div class="tile is-child"></div>
+                <div class="tile is-parent is-vertical">
+                  <div class="tile is-child" id="DCname"></div>
+                  <div class="tile is-child" id="date">{{dc.createdAt}}</div>
+                  <div class="tile is-child" id="exp">
+                    <ul v-for="exp in dc.expSelectedForDC" :key="exp.index">
+                      <li>{{exp.experienceName}}</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div> 
     
 </div>
@@ -8,19 +28,21 @@
 
 <script>
 export default {
-  name: "browse"
+  name: "browseDC",
+  mounted() {
+    this.$store.dispatch("populateDcStoreAct");
+  },
+  computed: {
+    dcList() {
+      return this.$store.state.DCData.DCsList;
+    }
+  }
 };
 </script>
 
-<style module>
-.editDC {
-  z-index: 500;
-  position: fixed;
-  bottom: 3em;
-  right: 4em;
-  height: 50px;
-  width: 50px;
-}
+<style scoped>
+@import "~bulma/css/bulma.css";
+
 .linkButton {
   position: relative;
   height: 50px;
@@ -43,6 +65,23 @@ export default {
 }
 .icon:hover {
   font-size: 60px;
+}
+
+.main {
+  z-index: 2;
+  height: 100%;
+  width: 90%;
+  margin-left: 200px;
+  padding: 0;
+  text-decoration: none;
+  position: relative;
+}
+.content {
+  position: relative;
+  float: left;
+  margin-top: 150px;
+  width: 50%;
+  margin-bottom: 50px;
 }
 </style>
 
